@@ -101,7 +101,7 @@ Vol() {
 Print () {
 	# Active Window Formatting
 	echo -en '%{c}%{T3}'
-	echo -en $(ActiveWindow)'%{T-}%{O500}'
+	echo -en $(ActiveWindow)'%{T-}%{O350}'
 	# Home Button Formatting
 	echo -en '%{l}'
         echo -en '%{O'$itemPadding'}'
@@ -149,4 +149,4 @@ while true
 do
     sleep 1
     echo "$(Print)" 
-done| lemonbar -p -u $borderWidth -U $mikuGreen -g x24 -f "$font_awesome" -f "$font_dejavuSans" -f "$font_dejavuSans_medium" -B $mikuBlack -F $mikuGreen|sh 
+done| lemonbar -p -u $borderWidth -U $mikuGreen -g x24 -f "$font_awesome" -f "$font_zevvPeep" -f "$font_zevvPeep" -B $mikuBlack -F $mikuGreen|sh 

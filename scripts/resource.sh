@@ -23,5 +23,7 @@ squareIcon_awesome='\uf0c8'
 
 font_awesome="-*-font awesome 5 free-medium-*-*-*-12-*-*-*-*-*-*-*"
 font_dejavuSans="-*-clean-medium-r-*-*-12-*-*-*-*-*-*-*"
-font_dejavuSans_medium="-*-clean-bold-r-*-*-18-*-*-*-*-*-*-*"
-
+font_dejavuSans_bold="-*-clean-bold-r-*-*-18-*-*-*-*-*-*-*"
+font_hack="-*-hack-medium-r-*-*-12-*-*-*-*-*-*-*"
+font_hack_bold="-*-hack-bold-r-*-*-12-*-*-*-*-*-*-*"
+font_zevvPeep="-*-peep-medium-r-*-*-16-*-*-*-*-*-*-*"
