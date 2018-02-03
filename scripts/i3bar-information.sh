@@ -37,5 +37,5 @@ echo -en '
 '
 while true
 do
-	sleep 10000000
+    :
 done
