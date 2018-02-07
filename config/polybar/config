@@ -19,42 +19,84 @@ background = #222
 background-alt = #444
 ;foreground = ${xrdb:color7:#222}
 foreground = #dfdfdf
-foreground-alt = #555
+foreground-alt = #fff
 primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
 
 [bar/miku]
 ;monitor = ${env:MONITOR:HDMI-1}
+; Use the specified monitor as a fallback if the main one is not found.
+;monitor-fallback =
 width = 100%
 height = 27
 ;offset-x = 1%
 ;offset-y = 1%
-fixed-center = false
+fixed-center = true
 
 background = ${colors.mikuBlack}
 foreground = ${colors.mikuGreen}
+; Background gradient (vertical steps)
+;   background-[0-9]+ = #aarrggbb
+;background-0 = 
+
+; Value used for drawing rounded corners
+; Individual top/bottom values can be defined using:
+;   radius-{top,bottom}
+;radius = 0.0
 
 line-size = 3
 line-color = ${colors.mikuGreen}
 
+; Values applied to all borders
+; Individual side values can be defined using:
+;   border-{left,top,right,bottom}-size
+;   border-{left,top,right,bottom}-color
+border-bottom-size = 3
+border-color = ${colors.mikuGreen}
 
-padding = 5
+padding = 1
 
-module-margin = 10
+module-margin = 20
 
-font-0 = fixed:pixelsize=10;1
-font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-font-2 = "wuncon siji:pixelsize=10;1"
+font-0 = peep regular:pixelsize=14;3
+font-1 = "IPAPGothic:pixelsize=14;3"
+font-2 = unifont:fontformat=truetype:size=8:antialias=false;0
+font-3 = "wuncon siji:pixelsize=10;1"
+font-4 = "font awesome 5 free solid:pixelsize=14;2"
 
-modules-left = bspwm i3
-modules-center = 
-modules-right = xbacklight volume xkeyboard memory cpu wlan eth battery temperature date powermenu
+modules-left = i3
+modules-center = whoami kernel
+modules-right = 
+;xbacklight volume xkeyboard memory cpu wlan eth battery temperature date powermenu
+
+; The separator will be inserted between the output of each module
+;separator = "|"
+
+; Opacity value between 0.0 and 1.0 used on fade in/out
+; dim-value = 1.0
+
+; Value to be used to set the WM_NAME atom
+; If the value is empty or undefined, the atom value
+; will be created from the following template: polybar-[BAR]_[MONITOR]
+; NOTE: The placeholders are not available for custom values
+;wm-name =
+
+; Locale used to localize various module data (e.g. date)
+; Expects a valid libc locale, for example: sv_SE.UTF-8
+;locale = 
+
 
 tray-position = right
-tray-padding = 5
+; If true, the bar will not shift its
+; contents when the tray changes
+tray-detached = false
+
+; Tray icon max size
+tray-maxsize = 24
+tray-padding = 10
 ;tray-transparent = true
-;tray-background = #0063ff
+tray-background = ${colors.mikuBlack}
 
 ;wm-restack = bspwm
 ;wm-restack = i3
@@ -66,10 +108,54 @@ tray-padding = 5
 
 ;scroll-up = i3wm-wsnext
 ;scroll-down = i3wm-wsprev
-
+enable-ipc = true
 bottom = true
 cursor-click = pointer
 cursor-scroll = ns-resize
+[module/whoami]
+type = custom/script
+
+; Available tokens:
+;   %counter%
+; Command to be executed (using "/usr/bin/env sh -c [command]")
+exec = echo $(whoami)@$(hostname -s)
+
+; Conditional command that, if defined, needs to exit successfully
+; before the main exec command is invoked.
+; Default: ""
+;exec-if = pidof polybar
+
+; Will the script output continous content?
+; Default: false
+tail = false
+
+; Seconds to sleep between updates
+; Default: 2 (0 if `tail = true`)
+interval = 216000
+format-prefix = " "
+format-prefix-foreground = ${colors.mikuGray}
+[module/kernel]
+type = custom/script
+
+; Available tokens:
+;   %counter%
+; Command to be executed (using "/usr/bin/env sh -c [command]")
+exec = echo   $(uname -r) $(uname)
+
+; Conditional command that, if defined, needs to exit successfully
+; before the main exec command is invoked.
+; Default: ""
+;exec-if = pgrep -x myservice
+
+; Will the script output continous content?
+; Default: false
+tail = false
+
+; Seconds to sleep between updates
+; Default: 2 (0 if `tail = true`)
+interval = 216000
+format-prefix = " "
+format-prefix-foreground = ${colors.mikuGray}
 
 [module/xwindow]
 type = internal/xwindow
@@ -130,9 +216,11 @@ type = internal/i3
 format = <label-state> <label-mode>
 index-sort = true
 wrapping-scroll = false
-strip-wsnumbers = true
+strip-wsnumbers = false
 enable-click = true
 
+; ws-icon-[0-9]+ = label;icon
+; NOTE: The label needs to match the name of the i3 workspace
 ws-icon-0 = "1:初;初"
 ws-icon-1 = "2:音;音"
 ws-icon-2 = "3:ミ;ミ"
@@ -147,30 +235,31 @@ ws-icon-9 = "10:0;0"
 ; Only show workspaces on the same output as the bar
 ;pin-workspaces = true
 
-label-mode-padding = 2
-label-mode-foreground = #000
-label-mode-background = ${colors.primary}
+label-mode-padding = 1
+label-mode-foreground = ${colors.mikuBlack}
+label-mode-background = ${colors.mikuGreen}
 
 ; focused = Active workspace on focused monitor
-label-focused = %index%
-label-focused-background = ${module/bspwm.label-focused-background}
-label-focused-underline = ${module/bspwm.label-focused-underline}
-label-focused-padding = ${module/bspwm.label-focused-padding}
+label-focused = %icon%
+label-focused-background = ${colors.mikuBlack}
+label-focused-overline = ${colors.mikuPink}
+label-focused-padding = 3
 
 ; unfocused = Inactive workspace on any monitor
-label-unfocused = %index%
-label-unfocused-padding = ${module/bspwm.label-occupied-padding}
+label-unfocused = %icon%
+label-unfocused-padding = 2
 
 ; visible = Active workspace on unfocused monitor
-label-visible = %index%
-label-visible-background = ${self.label-focused-background}
-label-visible-underline = ${self.label-focused-underline}
-label-visible-padding = ${self.label-focused-padding}
+label-visible = %icon%
+label-visible-background = ${colors.mikuBlack}
+label-visible-overline = ${colors.mikuGreen}
+label-visible-padding = 3
 
 ; urgent = Workspace with urgency hint set
-label-urgent = %index%
-label-urgent-background = ${module/bspwm.label-urgent-background}
-label-urgent-padding = ${module/bspwm.label-urgent-padding}
+label-urgent = %icon%
+label-urgent-background = ${colors.mikuGreen}
+label-urgent-foreground = ${colors.mikuBlack}
+label-urgent-padding = 2
 
 ; Separator in between workspaces
 ; label-separator = |

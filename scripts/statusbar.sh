@@ -28,7 +28,7 @@ Battery(){
 # CPU usage indicator
 CPU() {
 # https://stackoverflow.com/questions/9229333/how-to-get-overall-cpu-usage-e-g-57-on-linux
-local CPU=$(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage}'|sed -e 's/\([0-9]\+\).\+/\1 %/')
+local CPU=$(awk '{u=$2+$4; t=$2+$4+$5; if (NR==1){u1=u; t1=t;} else print ($2+$4-u1) * 100 / (t-t1) "%"; }' <(grep 'cpu ' /proc/stat) <(sleep 1;grep 'cpu ' /proc/stat)|sed -e 's/\([0-9]\+\).\+/\1 %/')
 echo -n $CPU
 
 }
@@ -100,8 +100,8 @@ Vol() {
 # Formattinf and printing everything needed
 Print () {
 	# Active Window Formatting
-	echo -en '%{c}%{T3}'
-	echo -en $(ActiveWindow)'%{T-}%{O350}'
+	# echo -en '%{c}%{T3}'
+	# echo -en $(ActiveWindow)'%{T-}%{O350}'
 	# Home Button Formatting
 	echo -en '%{l}'
         echo -en '%{O'$itemPadding'}'
@@ -147,6 +147,5 @@ Print () {
 }
 while true 
 do
-    sleep 1
     echo "$(Print)" 
 done| lemonbar -p -u $borderWidth -U $mikuGreen -g x24 -f "$font_awesome" -f "$font_zevvPeep" -f "$font_zevvPeep" -B $mikuBlack -F $mikuGreen|sh 

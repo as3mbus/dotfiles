@@ -26,10 +26,10 @@ font pango:hermit 12
 # X core fonts rendering does not support right-to-left and this being a bitmap
 # font, it doesn’t scale on retina/hidpi displays.
 
-new_window none
+new_window pixel 10
 new_float pixel 10
 hide_edge_borders smart
-
+for_window [class=".*"] title_format "  <b>%title</b>"
 set $mikuGreen #56D2C7
 set $mikuGreenDarker #2d716b
 set $mikuGreenDarkest #1d4441
@@ -58,10 +58,12 @@ set $ws8 8:8
 set $ws9 9:9
 set $ws10 10:0
 
+exec --no-startup-id compton -bc
 exec --no-startup-id feh --bg-scale /media/Consume/Hatsune\ Miku\ Hibikase.jpg
 exec --no-startup-id redshift-gtk
 exec --no-startup-id workrave
-exec --no-startup-id sh .scripts/statusbar.sh
+exec --no-startup-id bash .scripts/statusbar.sh
+exec --no-startup-id polybar miku
 exec --no-startup-id "i3-msg 'workspace $ws1; append_layout .config/i3/workspace-1.json'"
 exec rambox
 exec Telegram
@@ -72,6 +74,11 @@ floating_modifier $mod
 
 # screenshot using scrot
 bindsym $mod+Print exec scrot ~/screenshots/%Y-%m-%d-%T-screenshot.png
+
+bindsym $mod+Shift+Return exec "i3lock -i /media/Consume/hatsune-miku-wallpaper.png"
+
+#bindsym Super_L exec nautilus
+#bindcode --release 133 exec firefox
 
 # start a terminal
 bindsym $mod+Return exec xfce4-terminal
@@ -221,28 +228,28 @@ bindsym $mod+Shift+v mode "volume"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-        status_command ~/.scripts/i3bar-information.sh
-        mode hide
-        font pango:Hermit 12
-        hidden_state hide
-        modifier $mod
-        output LVDS-1-1
-        tray_output LVDS-1-1
-        tray_padding 0px 
-        font pango:monospace 16
-        workspace_buttons yes
-        strip_workspace_numbers yes
-        binding_mode_indicator yes
-        colors {
-            background $mikuBlack
-            statusline #ffffff
-            separator $mikuPink
-    
-            focused_workspace  $mikuGreen $mikuBlack $mikuPink
-            active_workspace   $mikuGreen $mikuBlack $mikuGreen
-            inactive_workspace $mikuGreenDarkest $mikuBlack $mikuGreen
-            urgent_workspace   $mikuPink $mikuGreen $mikuBlack
-            binding_mode       $mikuPink $mikuGray $mikuBlack
-        }
-}
+#bar {
+#        status_command ~/.scripts/i3bar-information.sh
+#        mode hide
+#        font pango:Hermit 12
+#        hidden_state hide
+#        modifier $mod
+#        output LVDS-1-1
+#        tray_output LVDS-1-1
+#        tray_padding 0px 
+#        font pango:monospace 16
+#        workspace_buttons yes
+#        strip_workspace_numbers yes
+#        binding_mode_indicator yes
+#        colors {
+#            background $mikuBlack
+#            statusline #ffffff
+#            separator $mikuPink
+#    
+#            focused_workspace  $mikuGreen $mikuBlack $mikuPink
+#            active_workspace   $mikuGreen $mikuBlack $mikuGreen
+#            inactive_workspace $mikuGreenDarkest $mikuBlack $mikuGreen
+#            urgent_workspace   $mikuPink $mikuGreen $mikuBlack
+#            binding_mode       $mikuPink $mikuGray $mikuBlack
+#        }
+#}
