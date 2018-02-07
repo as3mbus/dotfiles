@@ -22,14 +22,28 @@ Home(){
     echo -en "%{A:rofi -show run:}%{O"$itemPadding"}$squareIcon_awesome%{O"$itemPadding"}%{A}"
 }
 Battery(){
-    local capacity=$(cat /sys/class/power_supply/BAT0/capacity)
-    echo -en $capacity'%'
+    local capacity=$(\
+        cat /sys/class/power_supply/BAT0/capacity|\
+        awk '{printf "%3.0f %", $1}')
+    echo -en "$capacity"
 }
 # CPU usage indicator
 CPU() {
 # https://stackoverflow.com/questions/9229333/how-to-get-overall-cpu-usage-e-g-57-on-linux
-local CPU=$(awk '{u=$2+$4; t=$2+$4+$5; if (NR==1){u1=u; t1=t;} else print ($2+$4-u1) * 100 / (t-t1) "%"; }' <(grep 'cpu ' /proc/stat) <(sleep 1;grep 'cpu ' /proc/stat)|sed -e 's/\([0-9]\+\).\+/\1 %/')
-echo -n $CPU
+    local CPU=$(\
+        awk '{u=$2+$4; t=$2+$4+$5;\
+            if (NR==1)\
+            {\
+                u1=u;\
+                t1=t;\
+            }\
+            else\
+                 printf "%3.0f %", ($2+$4-u1) * 100 / (t-t1) ;\
+        }'\
+        <(grep 'cpu ' /proc/stat)\
+        <(sleep 1;\
+            grep 'cpu ' /proc/stat))
+    echo -n "$CPU"
 
 }
 # bandwidth indicator
@@ -53,21 +67,33 @@ Bandwidth() {
 }
 # active window indicator
 ActiveWindow(){
-    windowId=$(xprop -root | awk '/_NET_ACTIVE_WINDOW\(WINDOW\)/{print $NF}')
-    windowTitle=$(xprop -id $windowId | awk '/_NET_WM_NAME/{$1=$2="";print}' | cut -d'"' -f2)
+    local windowId=$(\
+        xprop -root |\
+        awk '/_NET_ACTIVE_WINDOW\(WINDOW\)/{print $NF}')
+    local windowTitle=$(\
+        xprop -id $windowId |\
+        awk '/_NET_WM_NAME/{$1=$2="";print}' |\
+        cut -d'"' -f2)
     echo -n $windowTitle
 }
 # Internet Indicator
 # not tested with ethernet because reasons
 WIFI(){
-    local ethernetStatus=$(cat /sys/class/net/$ethernetInterface/carrier)
-    local wifiStatus=$(cat /sys/class/net/$wifiInterface/carrier)
+    local ethernetStatus=$(\
+        cat /sys/class/net/$ethernetInterface/carrier)
+    local wifiStatus=$(\
+        cat /sys/class/net/$wifiInterface/carrier)
     local text=''
     if [[ "$ethernetStatus" -eq 1 ]];then 
         text=etherneticon
 	#open for new idea
     elif [[ "$wifiStatus"==1 ]];then
-        local signalStrength=$(iwconfig wlp3s0| grep Link|sed -re 's/.*=([0-9]+\/[0-9]+).*/\1/g'|sed -e 's/\// \/ /'| awk '{print $1 *100 / $3}')
+        local signalStrength=$(\
+            iwconfig wlp3s0|\
+            grep Link|\
+            sed -re 's/.*=([0-9]+\/[0-9]+).*/\1/g'|\
+            sed -e 's/\// \/ /'|\
+            awk '{print $1 *100 / $3}')
 	local SSID=$(iwgetid -r)
 	text=$SSID #' '$signalStrength
     else
@@ -87,65 +113,99 @@ Time() {
 }
 # Volume Indicator
 Vol() {
-    notmute=$(amixer get Master| sed -e '1,/Mono/d'| awk '{print $6}'| tr '\r\n' ' '| cut -d' ' -f 1)
+    notmute=$(amixer get Master|\
+            sed -e '1,/Mono/d'|\
+            awk '{print $6}'|\
+            tr '\r\n' ' '|\
+            cut -d' ' -f 1)
     if [[ $notmute == "[off]" ]]; then
         echo -n "Mute"
     else 
-	    volume=$(amixer get Master| sed -e '1,/Mono/d'| awk '{print $5}'| tr '\r\n' ' '| cut -d' ' -f 1| sed -e 's/\[\([0-9]\+%\)\]/\1/')
+        volume=$(amixer get Master|\
+                sed -e '1,/Mono/d'|\
+                awk '{print $5}'|\
+                tr '\r\n' ' '|\
+                cut -d' ' -f 1|\
+                sed -e 's/\[\([0-9]\+%\)\]/\1/'|\
+                awk '{printf "%3.0f %", $1}')
         #volume_bar=$(echo $volume | gdbar -h 2 -w 50 -fg orange)
         echo -n "$volume"
     fi
     return
 }
 # Formattinf and printing everything needed
-Print () {
-	# Active Window Formatting
-	# echo -en '%{c}%{T3}'
-	# echo -en $(ActiveWindow)'%{T-}%{O350}'
-	# Home Button Formatting
-	echo -en '%{l}'
-        echo -en '%{O'$itemPadding'}'
-	echo -en $(Date)
-        echo -en '%{O'$itemPadding'}'
-        echo -en $(VerticalBar $mikuPink $borderWidth)
-
-
-	echo -en '%{r}'
-	# CPU Usage Formatting
-	echo -en '%{U'$mikuGray'}%{F'$mikuGray'}%{+o}'
-	echo -en $(VerticalBar $mikuGray $borderWidth)
-	echo -en '%{O'$itemPadding'}'
-	echo -en $serverIcon_awesome $(CPU)'%'
-	echo -en '%{O10}%{-o)'
-	echo -en $(VerticalBar $mikuBlack $itemOffset)
-	# Wifi Formatting
-	echo -en '%{+o}%{U'$mikuGreen'}%{F'$mikuGreen'}'
-	echo -en $(VerticalBar $mikuGreen $borderWidth)'%{O'$itemPadding'}'
-	echo -en $wifiIcon_awesome $(WIFI)
-	echo -en '%{O'$itemPadding'}%{-o}'
-	# volume special formatting
-	echo -en '%{U'$mikuGreen'}%{B'$mikuBlack'}%{F'$mikuGray'}'
-	echo -en '%{O'$itemOffset'}'
-	echo -en $(VerticalBar $mikuPink $borderWidth)'%{O'$itemOffset'}'
-	echo -en '%{+u}%{+o}%{O'$itemPadding'}'
-	echo -en $soundUpIcon_awesome $(Vol)'%'
-	echo -en '%{O'$itemPadding'}%{-u}%{-o}'
-	echo -en '%{O'$itemOffset'}'$(VerticalBar $mikuPink $borderWidth)
-	echo -en '%{O'$itemOffset'}'
+Print () 
+{
+local cpu=$(CPU)
+# Active Window Formatting
+# echo -en '%{c}%{T3}'
+# echo -en $(ActiveWindow)'%{T-}%{O350}'
+# Home Button Formatting
+echo -en \
+"\
+%{l}\
+%{O$itemPadding}\
+$(Date)\
+%{O$itemPadding}\
+$(VerticalBar $mikuPink $borderWidth)\
+%{r}"
+# CPU Usage Formatting
+echo -en \
+"%{U$mikuGray}%{F$mikuGray}%{+o}"\
+"$(VerticalBar $mikuGray $borderWidth)"\
+"%{O$itemPadding}"\
+"$serverIcon_awesome $cpu%"\
+"%{O$itemPadding}%{-o}"\
+"%{O$itemOffset}"
+# Wifi Formatting
+echo -en \
+"%{+o}%{U$mikuGreen}%{F$mikuGreen}"\
+"$(VerticalBar $mikuGreen $borderWidth)"\
+"%{O$itemPadding}"\
+"$wifiIcon_awesome $(WIFI)"\
+"%{O$itemPadding}%{-o}"\
+"%{O$itemOffset}"
+# volume special formatting
+echo -en \
+"%{U$mikuGreen}%{B$mikuBlack}%{F$mikuGray}"\
+"$(VerticalBar $mikuPink $borderWidth)"\
+"%{O$itemOffset}"\
+"%{+u}%{+o}%{O$itemPadding}"\
+"$soundUpIcon_awesome $(Vol)%"\
+"%{O$itemPadding}%{-u}%{-o}"\
+"%{O$itemOffset}"\
+"$(VerticalBar $mikuPink $borderWidth)"\
+"%{O$itemOffset}"
 	# Battery formatting
-	echo -en '%{U'$mikuGreen'}%{F'$mikuGreen'}'
-	echo -en '%{+o}%{O'$itemPadding'}'
-	echo -en $batteryIcon_awesome $(Battery)'%'
-	echo -en '%{O'$itemPadding'}'$(VerticalBar $mikuGreen $borderWidth)'%{-o}'
-	echo -en '%{O'$itemOffset'}'
+echo -en \
+"%{U$mikuGreen}%{F$mikuGreen}"\
+"%{+o}%{O$itemPadding}"\
+"$batteryIcon_awesome $(Battery)%"\
+"%{O$itemPadding}"\
+"$(VerticalBar $mikuGreen $borderWidth)"\
+"%{-o}"\
+"%{O$itemOffset}"
 	# Time formatting
-	echo -en '%{U'$mikuGray'}%{F'$mikuGray'}'
-	echo -en '%{+o}%{O'$itemPadding'}'
-	echo -en $(Time)
-	echo -en '%{O'$itemPadding'}'$(VerticalBar $mikuGray $borderWidth)'%{-o}%{B-}%{F-}%{U-}'
+echo -en \
+"%{U$mikuGray}%{F$mikuGray}"\
+"%{+o}%{O$itemPadding}"\
+"$(Time)"\
+"%{O$itemPadding}"\
+"$(VerticalBar $mikuGray $borderWidth)"\
+"%{-o}%{B-}%{F-}%{U-}"
 
 }
 while true 
 do
     echo "$(Print)" 
-done| lemonbar -p -u $borderWidth -U $mikuGreen -g x24 -f "$font_awesome" -f "$font_zevvPeep" -f "$font_zevvPeep" -B $mikuBlack -F $mikuGreen|sh 
+done|\
+    lemonbar -p \
+        -u $borderWidth\
+        -U $mikuGreen\
+        -g x24\
+        -f "$font_awesome"\
+        -f "$font_zevvPeep"\
+        -f "$font_zevvPeep"\
+        -B $mikuBlack\
+        -F $mikuGreen|\
+    sh 
