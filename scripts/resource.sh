@@ -21,7 +21,13 @@ soundDownIcon_awesome='\uf027'
 clockIcon_awesome='\uf017'
 squareIcon_awesome='\uf0c8'
 
-font_awesome="-*-font awesome 5 free-medium-*-*-*-12-*-*-*-*-*-*-*"
+XFT_awesome="font awesome 5 free solid:style=solid:pixelsize=12"
+XFT_zevvPeep="peep:pixelsize=12"
+XFT_hermit="Hermit"
+
+
+# XLFD
+font_awesome="-*-font awesome 5 free-*-*-*-*-*-*-*-*-*-*-*-*"
 font_dejavuSans="-*-clean-medium-r-*-*-12-*-*-*-*-*-*-*"
 font_dejavuSans_bold="-*-clean-bold-r-*-*-18-*-*-*-*-*-*-*"
 font_hack="-*-hack-medium-r-*-*-12-*-*-*-*-*-*-*"

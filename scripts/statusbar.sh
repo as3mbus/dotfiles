@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/bash
 basedir=$(dirname $0)
 source $basedir/lemonbar_conf.sh
 source $basedir/resource.sh
