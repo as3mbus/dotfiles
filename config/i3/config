@@ -42,8 +42,8 @@ set $mikuGray #bec8d1
 set $mikuPink #e12885
 set $white #ffffff
 # wallpaper and lockscreen image definition
-set $wallpaper /media/Consume/miku-wp2.jpg
-set $lockScreen /media/Consume/hatsune-miku-wallpaper.png
+set $wallpaper /media/Consume/Images/miku-wp2.jpg
+set $lockScreen /media/Consume/Images/hatsune-miku-wallpaper.png
 
 # define workspace names
 set $ws1 1:初
@@ -71,12 +71,8 @@ client.placeholder      #000000         $mikuGreen      $mikuGray       #000000 
 client.background       $mikuGreen
 
 # autostart applications
-exec --no-startup-id compton -bc
 exec --no-startup-id feh --bg-scale $wallpaper
-exec --no-startup-id redshift-gtk
-exec --no-startup-id workrave
-exec --no-startup-id bash .scripts/statusbar.sh
-exec --no-startup-id polybar miku
+exec --no-startup-id ~/.scripts/autostarts.sh
 exec --no-startup-id "i3-msg 'workspace $ws1; append_layout $ws1Layout'"
 exec rambox
 exec Telegram
