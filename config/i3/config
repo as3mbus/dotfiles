@@ -71,7 +71,7 @@ client.placeholder      #000000         $mikuGreen      $mikuGray       #000000 
 client.background       $mikuGreen
 
 # autostart applications
-exec --no-startup-id feh --bg-scale $wallpaper
+exec --no-startup-id sh .fehbg
 exec --no-startup-id ~/.scripts/autostarts.sh
 exec --no-startup-id "i3-msg 'workspace $ws1; append_layout $ws1Layout'"
 exec rambox
