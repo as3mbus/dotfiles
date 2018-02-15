@@ -12,6 +12,7 @@ mikuGreen=#56D2C7
 mikuGreenDarker=#2d716b
 mikuGreenDarkest=#1d4441
 mikuBlack=#373b3e
+mikuBlackLight=#474b4e
 mikuGray=#bec8d1
 mikuPink=#e12885
 ;background = ${xrdb:color0:#222}
@@ -241,12 +242,13 @@ label-mode-background = ${colors.mikuGreen}
 
 ; focused = Active workspace on focused monitor
 label-focused = %icon%
-label-focused-background = ${colors.mikuBlack}
+label-focused-background = ${colors.mikuBlackLight}
 label-focused-overline = ${colors.mikuPink}
 label-focused-padding = 3
 
 ; unfocused = Inactive workspace on any monitor
 label-unfocused = %icon%
+label-unfocused-foreground = ${colors.mikuGray}
 label-unfocused-padding = 2
 
 ; visible = Active workspace on unfocused monitor
