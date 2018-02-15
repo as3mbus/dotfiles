@@ -21,13 +21,19 @@ soundDownIcon_awesome='\uf027'
 clockIcon_awesome='\uf017'
 squareIcon_awesome='\uf0c8'
 
+cpuIcon_siji="\ue082"
+soundIcon_siji="\ue152"
+networkIcon_siji="\ue10f"
+batteryIcon_siji="\ue040"
+
 XFT_awesome="font awesome 5 free solid:style=solid:pixelsize=12"
 XFT_zevvPeep="peep:pixelsize=12"
 XFT_hermit="Hermit"
 
 
 # XLFD
-font_awesome="-*-font awesome 5 free-*-*-*-*-*-*-*-*-*-*-*-*"
+font_siji="-wuncon-siji-*-*-*-*-16-*-*-*-*-*-*-*"
+font_awesome="-*-font awesome 5 free solid-medium-*-*-*-*-*-*-*-*-*-*-*"
 font_dejavuSans="-*-clean-medium-r-*-*-12-*-*-*-*-*-*-*"
 font_dejavuSans_bold="-*-clean-bold-r-*-*-18-*-*-*-*-*-*-*"
 font_hack="-*-hack-medium-r-*-*-12-*-*-*-*-*-*-*"

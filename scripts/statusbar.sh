@@ -154,7 +154,7 @@ echo -en \
 "%{U$mikuGray}%{F$mikuGray}%{+o}"\
 "$(VerticalBar $mikuGray $borderWidth)"\
 "%{O$itemPadding}"\
-"$serverIcon_awesome $cpu%"\
+"$cpuIcon_siji $cpu%"\
 "%{O$itemPadding}%{-o}"\
 "%{O$itemOffset}"
 # Wifi Formatting
@@ -162,7 +162,7 @@ echo -en \
 "%{+o}%{U$mikuGreen}%{F$mikuGreen}"\
 "$(VerticalBar $mikuGreen $borderWidth)"\
 "%{O$itemPadding}"\
-"$wifiIcon_awesome $(WIFI)"\
+"$networkIcon_siji $(WIFI)"\
 "%{O$itemPadding}%{-o}"\
 "%{O$itemOffset}"
 # volume special formatting
@@ -171,7 +171,7 @@ echo -en \
 "$(VerticalBar $mikuPink $borderWidth)"\
 "%{O$itemOffset}"\
 "%{+u}%{+o}%{O$itemPadding}"\
-"$soundUpIcon_awesome $(Vol)%"\
+"$soundIcon_siji $(Vol)%"\
 "%{O$itemPadding}%{-u}%{-o}"\
 "%{O$itemOffset}"\
 "$(VerticalBar $mikuPink $borderWidth)"\
@@ -180,7 +180,7 @@ echo -en \
 echo -en \
 "%{U$mikuGreen}%{F$mikuGreen}"\
 "%{+o}%{O$itemPadding}"\
-"$batteryIcon_awesome $(Battery)%"\
+"$batteryIcon_siji $(Battery)%"\
 "%{O$itemPadding}"\
 "$(VerticalBar $mikuGreen $borderWidth)"\
 "%{-o}"\
@@ -198,13 +198,12 @@ echo -en \
 while true 
 do
     echo "$(Print)" 
-done|\
-    lemonbar -p \
+done \
+    | lemonbar -p \
         -u $borderWidth\
         -U $mikuGreen\
         -g x24\
-        -f "$font_awesome"\
-        -f "$font_zevvPeep"\
+        -f "$font_siji"\
         -f "$font_zevvPeep"\
         -B $mikuBlack\
         -F $mikuGreen|\
