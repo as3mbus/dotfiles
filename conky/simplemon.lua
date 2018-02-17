@@ -42,7 +42,7 @@ conky.config = {
     font = 'peep:size=14',
     gap_x = 30,
     gap_y = 30,
-	macimum_width = 1366,
+	maximum_width = 1366,
     net_avg_samples = 2,
     no_buffers = true,
     out_to_console = false,
