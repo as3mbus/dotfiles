@@ -5,9 +5,12 @@
 [ ! -z $(pidof workrave) ] && pkill workrave
 [ ! -z $(pidof lemonbar) ] && pkill lemonbar
 [ ! -z $(pidof polybar) ] && pkill polybar
+[ ! -z $(pidof conky) ] && pkill conky
 
 /home/as3mbus/.scripts/statusbar.sh &
 $(which workrave) &
 $(which compton) -bc &
 $(which polybar) miku &
 $(which redshift-gtk) &
+$(which conky) &
+exit 0
