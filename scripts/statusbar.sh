@@ -2,9 +2,13 @@
 basedir=$(dirname $0)
 source $basedir/lemonbar_conf.sh
 source $basedir/resource.sh
-
+source $basedir/battery.sh
+source $basedir/alsa_volume.sh
+source $basedir/cpu_usage.sh
+source $basedir/network_indicator.sh
 #create vertical bar with defined color arg1 and width arg2
-VerticalBar(){
+VerticalBar()
+{
     if [ -z "$1" ]; then
         local color=#000000
     else
@@ -18,37 +22,14 @@ VerticalBar(){
     echo -en '%{B'$color'}%{O'$width'}%{B-}'
 }
 # Home Buttone for dmenu
-Home(){
+Home()
+{
     echo -en "%{A:rofi -show run:}%{O"$itemPadding"}$squareIcon_awesome%{O"$itemPadding"}%{A}"
-}
-Battery(){
-    local capacity=$(\
-        cat /sys/class/power_supply/BAT0/capacity|\
-        awk '{printf "%3.0f %", $1}')
-    echo -en "$capacity"
-}
-# CPU usage indicator
-CPU() {
-# https://stackoverflow.com/questions/9229333/how-to-get-overall-cpu-usage-e-g-57-on-linux
-    local CPU=$(\
-        awk '{u=$2+$4; t=$2+$4+$5;\
-            if (NR==1)\
-            {\
-                u1=u;\
-                t1=t;\
-            }\
-            else\
-                 printf "%3.0f %", ($2+$4-u1) * 100 / (t-t1) ;\
-        }'\
-        <(grep 'cpu ' /proc/stat)\
-        <(sleep 1;\
-            grep 'cpu ' /proc/stat))
-    echo -n "$CPU"
-
 }
 # bandwidth indicator
 # not used yet
-Bandwidth() {
+Bandwidth() 
+{
 # https://github.com/patlux/dotfiles/blob/master/config/lemonbar/blocks/disabled/network-bandwidth.sh
   R1=`cat /sys/class/net/$INTERFACE/statistics/rx_bytes`
   T1=`cat /sys/class/net/$INTERFACE/statistics/tx_bytes`
@@ -66,7 +47,8 @@ Bandwidth() {
   echo "$ICON_UP $RKBPS kB/s $ICON_DOWN $TKBPS kB/s"
 }
 # active window indicator
-ActiveWindow(){
+ActiveWindow()
+{
     local windowId=$(\
         xprop -root |\
         awk '/_NET_ACTIVE_WINDOW\(WINDOW\)/{print $NF}')
@@ -76,80 +58,22 @@ ActiveWindow(){
         cut -d'"' -f2)
     echo -n $windowTitle
 }
-# Internet Indicator
-# not tested with ethernet because reasons
-WIFI(){
-    local ethernetStatus=$(\
-        cat /sys/class/net/$ethernetInterface/carrier)
-    local wifiStatus=$(\
-        cat /sys/class/net/$wifiInterface/carrier)
-    local text=''
-    if [[ "$ethernetStatus" -eq 1 ]];then 
-        text=etherneticon
-	#open for new idea
-    elif [[ "$wifiStatus"==1 ]];then
-        local signalStrength=$(\
-            iwconfig wlp3s0|\
-            grep Link|\
-            sed -re 's/.*=([0-9]+\/[0-9]+).*/\1/g'|\
-            sed -e 's/\// \/ /'|\
-            awk '{print $1 *100 / $3}')
-	local SSID=$(iwgetid -r)
-	text=$SSID #' '$signalStrength
-    else
-        text='not connected'
-    fi
-    echo -n $text
-}
-# Date Indicator
-Date() {
-    local date=$(date +'%a, %d %b %Y')
-    echo -n "$date"
-}
-# Time Indicator
-Time() {
-    local time=$(date +'%H:%M:%S')
-    echo -n "$time"
-}
-# Volume Indicator
-Vol() {
-    notmute=$(amixer get Master|\
-            sed -e '1,/Mono/d'|\
-            awk '{print $6}'|\
-            tr '\r\n' ' '|\
-            cut -d' ' -f 1)
-    if [[ $notmute == "[off]" ]]; then
-        echo -n "Mute"
-    else 
-        volume=$(amixer get Master|\
-                sed -e '1,/Mono/d'|\
-                awk '{print $5}'|\
-                tr '\r\n' ' '|\
-                cut -d' ' -f 1|\
-                sed -e 's/\[\([0-9]\+%\)\]/\1/'|\
-                awk '{printf "%3.0f %", $1}')
-        #volume_bar=$(echo $volume | gdbar -h 2 -w 50 -fg orange)
-        echo -n "$volume"
-    fi
-    return
-}
-# Formattinf and printing everything needed
+# Formatting and printing everything needed
 Print () 
 {
 local cpu=$(CPU)
 # Active Window Formatting
 # echo -en '%{c}%{T3}'
 # echo -en $(ActiveWindow)'%{T-}%{O350}'
-# Home Button Formatting
 echo -en \
 "\
 %{l}\
 %{O$itemPadding}\
-$(Date)\
+$(date +'%a, %d %b %Y')\
 %{O$itemPadding}\
 $(VerticalBar $mikuPink $borderWidth)\
 %{r}"
-# CPU Usage Formatting
+    # CPU Usage Formatting
 echo -en \
 "%{U$mikuGray}%{F$mikuGray}%{+o}"\
 "$(VerticalBar $mikuGray $borderWidth)"\
@@ -157,15 +81,15 @@ echo -en \
 "$cpuIcon_siji $cpu%"\
 "%{O$itemPadding}%{-o}"\
 "%{O$itemOffset}"
-# Wifi Formatting
+    # Network Formatting
 echo -en \
 "%{+o}%{U$mikuGreen}%{F$mikuGreen}"\
 "$(VerticalBar $mikuGreen $borderWidth)"\
 "%{O$itemPadding}"\
-"$networkIcon_siji $(WIFI)"\
+"$networkIcon_siji $(Network)"\
 "%{O$itemPadding}%{-o}"\
 "%{O$itemOffset}"
-# volume special formatting
+    # volume special formatting
 echo -en \
 "%{U$mikuGreen}%{B$mikuBlack}%{F$mikuGray}"\
 "$(VerticalBar $mikuPink $borderWidth)"\
@@ -189,7 +113,7 @@ echo -en \
 echo -en \
 "%{U$mikuGray}%{F$mikuGray}"\
 "%{+o}%{O$itemPadding}"\
-"$(Time)"\
+"$(date +'%H:%M')"\
 "%{O$itemPadding}"\
 "$(VerticalBar $mikuGray $borderWidth)"\
 "%{-o}%{B-}%{F-}%{U-}"
@@ -198,6 +122,7 @@ echo -en \
 while true 
 do
     echo "$(Print)" 
+    sleep 1
 done \
     | lemonbar -p \
         -u $borderWidth\
