@@ -31,7 +31,6 @@ conky.config = {
 	border_inner_margin = 20,
     border_width = 1,
     cpu_avg_samples = 2,
-	color1 = '373B3E',
 	default_color = 'white',
     default_outline_color = 'white',
     default_shade_color = 'white',
@@ -50,11 +49,11 @@ conky.config = {
     out_to_stderr = false,
     extra_newline = false,
     own_window = true,
-	--own_window_colour = '373B3E',
+	own_window_colour = '373B3E',
     own_window_class = 'Conky',
     own_window_type = 'override',
 	own_window_argb_visual = true,
-	own_window_argb_value = 0,
+	own_window_argb_value = 200,
 	own_window_hints = 'undecorated,sticky,skip_taskbar,skip_pager',
     stippled_borders = 0,
     update_interval = 1.0,
@@ -73,9 +72,9 @@ ${voffset 5}${alignr}${font hermit:style=Medium:pixelsize=24}${time %A, %d %B %Y
 --${voffset 20}$alignr${color}Welcome ${execi 216000 whoami}
 [[\
 ${voffset 20}\
-${font hermit:style=Bold:pixelsize=14}${color1}System		${hr 2}
+${color gray}System		${hr 2}
 ${voffset 20}\
-${color1}\
+${color grey}\
 ${offset 30}CPU\
 ${alignc}Memory\
 ${alignr 30}Swap$color
@@ -85,9 +84,9 @@ ${alignc}$memperc%\
 ${alignr 30}$swapperc%\
 $font\
 ${voffset 20}
-${font hermit:style=Bold:pixelsize=14}${color1}Network	${hr 2}\
+${color grey}Network	${hr 2}\
 ${voffset 20}
-${color1}\
+${color grey}\
 ${offset 60}UP\
 ${alignr 70}DOWN$color
 ${font hermit:pixelsize=24}\
