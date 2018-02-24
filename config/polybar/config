@@ -222,16 +222,16 @@ enable-click = true
 
 ; ws-icon-[0-9]+ = label;icon
 ; NOTE: The label needs to match the name of the i3 workspace
-ws-icon-0 = "1:初;初"
-ws-icon-1 = "2:音;音"
-ws-icon-2 = "3:ミ;ミ"
-ws-icon-3 = "4:ク;ク"
-ws-icon-4 = "5:5;5"
-ws-icon-5 = "6:6;6"
-ws-icon-6 = "7:7;7"
-ws-icon-7 = "8:8;8"
-ws-icon-8 = "9:9;9"
-ws-icon-9 = "10:0;0"
+;ws-icon-0 = "初;初"
+;ws-icon-1 = "音;音"
+;ws-icon-2 = "ミ;ミ"
+;ws-icon-3 = "ク;ク"
+;ws-icon-4 = "5;5"
+;ws-icon-5 = "6;6"
+;ws-icon-6 = "7;7"
+;ws-icon-7 = "8;8"
+;ws-icon-8 = "9;9"
+;ws-icon-9 = "0;0"
 
 ; Only show workspaces on the same output as the bar
 ;pin-workspaces = true
@@ -241,24 +241,24 @@ label-mode-foreground = ${colors.mikuBlack}
 label-mode-background = ${colors.mikuGreen}
 
 ; focused = Active workspace on focused monitor
-label-focused = %icon%
+label-focused = %name%
 label-focused-background = ${colors.mikuBlackLight}
 label-focused-overline = ${colors.mikuPink}
 label-focused-padding = 3
 
 ; unfocused = Inactive workspace on any monitor
-label-unfocused = %icon%
+label-unfocused = %name%
 label-unfocused-foreground = ${colors.mikuGray}
 label-unfocused-padding = 2
 
 ; visible = Active workspace on unfocused monitor
-label-visible = %icon%
+label-visible = %name%
 label-visible-background = ${colors.mikuBlack}
 label-visible-overline = ${colors.mikuGreen}
 label-visible-padding = 3
 
 ; urgent = Workspace with urgency hint set
-label-urgent = %icon%
+label-urgent = %name%
 label-urgent-background = ${colors.mikuGreen}
 label-urgent-foreground = ${colors.mikuBlack}
 label-urgent-padding = 2
