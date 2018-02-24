@@ -1,12 +1,15 @@
 #!/bin/bash
 
-# Source: http://askubuntu.com/a/450136
+# yanked from :  https://github.com/addy-dclxvi/almighty-dotfiles executor/usecpu
 
+# Source: http://askubuntu.com/a/450136
 # I only slightly modify this script to add an option to show icon, useful for my tint2 executor
 # Also useful for polybar custom script, dzen2 feeder, conkybar, lemonbar feeder, dunst notify, etc.
 # 'usedcpu -i' = with icon, 'usedcpu' = text only
 # Cheers!
 # Addy
+
+# additional editting to make things work by removing unset and setting index to reflect upon right value
 CPU()
 {
 PREV_TOTAL=0
