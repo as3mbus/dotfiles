@@ -35,21 +35,22 @@ if [[ "${PREV_TOTAL}" != "" ]] && [[ "${PREV_IDLE}" != "" ]]; then
   let "DIFF_IDLE=$IDLE-$PREV_IDLE"
   let "DIFF_TOTAL=$TOTAL-$PREV_TOTAL"
   let "DIFF_USAGE=(1000*($DIFF_TOTAL-$DIFF_IDLE)/$DIFF_TOTAL+5)/10"
-    if  [[ $1 = "-i" ]]; then
-    echo "  ${DIFF_USAGE} %"
-    else
-    echo "${DIFF_USAGE} %"
-    fi
+  if  [[ $1 = "-i" ]]; then
+    text=$(printf '　%3d %%' $DIFF_USAGE)
+  else
+    text=$(printf '%3d　%%' $DIFF_USAGE)
+  fi
 else
-    if  [[ $1 = "-i" ]]; then
-    echo "  ?"
-    else
-    echo "?"
-    fi
+  if  [[ $1 = "-i" ]]; then
+    text="　?"
+  else
+    text="?"
+  fi
 fi
+echo "$text"
 
 # Remember the total and idle CPU times for the next check.
 echo "${TOTAL}" > "${cpuFile}"
 echo "${IDLE}" >> "${cpuFile}"
 }
-CPU 
+CPU $1

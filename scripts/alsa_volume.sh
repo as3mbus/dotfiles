@@ -7,7 +7,7 @@ Vol()
             tr '\r\n' ' '|\
             cut -d' ' -f 1)
     if [[ $notmute == "[off]" ]]; then
-        echo -n "Mute"
+        text="Mute"
     else 
         volume=$(amixer get Master|\
                 sed -e '1,/Mono/d'|\
@@ -17,8 +17,12 @@ Vol()
                 sed -e 's/\[\([0-9]\+%\)\]/\1/'|\
                 awk '{printf "%3.0f %", $1}')
         #volume_bar=$(echo $volume | gdbar -h 2 -w 50 -fg orange)
-        echo -n "$volume"
+        text="$volume"
     fi
-    return
+    if  [[ $1 = "-i" ]]; then
+        echo -e "　$text"
+    else
+        echo  "$text"
+    fi
 }
-Vol
+Vol $1

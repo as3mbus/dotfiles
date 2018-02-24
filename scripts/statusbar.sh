@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 basedir=$(dirname $0)
-source $basedir/lemonbar_conf.sh
+source $basedir/config.sh
 source $basedir/resource.sh
 source $basedir/battery.sh
 source $basedir/alsa_volume.sh

@@ -1,4 +1,6 @@
 #!/bin/bash
+basedir=$(dirname $0)
+source $basedir/config.sh
 # Internet Indicator
 # not tested with ethernet because reasons
 Network()
@@ -23,6 +25,10 @@ Network()
     else
         text='not connected'
     fi
-    echo -n $text
+    if  [[ $1 = "-i" ]]; then
+        printf "　%s" $text
+    else
+        printf "%s" $text
+    fi
 }
-Network
+Network $1
