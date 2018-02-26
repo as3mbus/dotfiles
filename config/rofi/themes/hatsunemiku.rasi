@@ -1,0 +1,158 @@
+/*********************************************************
+ *  Rofi color theme
+ *
+ *  Based on the Gruvbox color scheme for Vim by morhetz
+ *  https://github.com/morhetz/gruvbox
+ *
+ *  File: gruvbox*dark.theme
+ *  Desc: Gruvbox dark color theme for Rofi
+ *  Author: bardisty <b@bah.im>
+ *  Source: https://github.com/bardisty/gruvbox*rofi
+ *  Modified: Sat Oct 22 2016 03:12:10 PDT *0700
+ **********************************************************/
+* {
+    foreground:   #BEC8D1;
+    background:   #373B3E;
+    cursorColor:  #E12885;
+
+    // black
+    color0:       #373B3E;
+    color8:       #454545;
+
+    // red
+    color1:       #E12828;
+    color9:       #F73030;
+
+    // green
+    color2:       #56D275;
+    color10:      #72E58E;
+
+    // yellow
+    color3:       #E1DC28;
+    color11:      #F1EC3F;
+
+    // blue
+    color4:       #565CD2;
+    color12:      #757BEB;
+
+    // magenta
+    color5:       #E12885;
+    color13:      #E24594;
+
+    // cyan
+    color6:       #56D2C7;
+    color14:      #74E7DD;
+
+    // white
+    color7:       #BEC8D1;
+    color15:      #D9E3EC;
+
+    transparent:                 00000000;
+    background-color: @color0;
+    foreground-color: @color7;
+}
+#window {
+    background-color: @background;
+    border:           0;
+    padding:          5;
+}
+#mainbox {
+    background-color: @background;
+    spacing: 10px;
+    border:  3;
+    border-color : @color5;
+    padding: 10;
+}
+#message {
+    border:       0;
+    background-color:   @color7;
+    padding:      10px ;
+}
+#textbox {
+    background-color: @color7;
+    text-color: @color0;
+}
+#listview {
+    fixed-height: 0;
+    border:       0;
+    spacing:      0 ;
+    scrollbar:    false;
+    padding:      2px 0px 0px ;
+}
+#element {
+    border-color: @color0;
+    border:  3px;
+    padding: 3px ;
+}
+#element.normal.normal {
+    background-color: @color0;
+    text-color:       @color7;
+}
+#element.normal.urgent {
+    background-color: @color0;
+    text-color:       @color5;
+}
+#element.normal.active {
+    background-color: @color0;
+    text-color:       @color6;
+}
+#element.selected.normal {
+    border-color:       @color6;
+    border: 2px;
+    background-color: @color0;
+    text-color:       @color7;
+}
+#element.selected.urgent {
+    background-color: @color0;
+    text-color:       @color5;
+    border-color:       @color5;
+    border:             2px;
+}
+#element.selected.active {
+    background-color: @color0;
+    text-color:       @color6;
+    border-color:       @color6;
+    border:             2px;
+}
+#element.alternate.normal {
+    background-color: @color8;
+    text-color:       @color15;
+}
+#element.alternate.urgent {
+    background-color: @color8;
+    text-color:       @color13;
+
+}
+#element.alternate.active {
+    background-color: @color8;
+    text-color:       @color14;
+}
+#scrollbar {
+    width:        0 ;
+    border:       0;
+    handle-width: 0 ;
+    padding:      0;
+}
+#sidebar {
+    border:       2px dash 0px 0px ;
+}
+#inputbar {
+    spacing:    20;
+    background-color: @color6;
+    padding:    5px ;
+}
+#entry {
+    background-color: @color6;
+    spacing:    0;
+    text-color: @color0;
+}
+#case-indicator{
+    background-color: @color5;
+    foreground-color: @color0;
+}
+#prompt {
+    spacing:    0;
+    background-color: @color0;
+    padding:    0 20px;
+    text-color: @color6;
+}
