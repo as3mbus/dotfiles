@@ -20,13 +20,13 @@ Network()
             sed -re 's/.*=([0-9]+\/[0-9]+).*/\1/g'|\
             sed -e 's/\// \/ /'|\
             awk '{print $1 *100 / $3}')
-	local SSID=$(iwgetid -r)
-	text=$SSID #' '$signalStrength
+        local SSID=$(iwgetid -r)
+        text=$SSID #' '$signalStrength
     else
         text='not connected'
     fi
     if  [[ $1 = "-i" ]]; then
-        printf "　%s" $text
+        printf "　$text" 
     else
         printf "%s" $text
     fi
