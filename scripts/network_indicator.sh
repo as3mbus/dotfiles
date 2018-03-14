@@ -20,7 +20,10 @@ Network()
             sed -re 's/.*=([0-9]+\/[0-9]+).*/\1/g'|\
             sed -e 's/\// \/ /'|\
             awk '{print $1 *100 / $3}')
-        local SSID=$(iwgetid -r)
+        local SSID=$(iwgetid -r|\
+                    awk -F"/" '{printf "%10s", $0}')
+        [[ ${#SSID} -gt 10 ]] && local SSID=${SSID:0:7}'...'
+
         text=$SSID #' '$signalStrength
     else
         text='not connected'

@@ -1,6 +1,6 @@
 #!/bin/sh
 basedir=$(dirname $0)
-source $basedir/lemonbar_conf.sh
+source $basedir/config.sh
 source $basedir/resource.sh
 
 

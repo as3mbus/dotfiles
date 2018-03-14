@@ -67,6 +67,7 @@ local cpu=$(CPU)
 # echo -en $(ActiveWindow)'%{T-}%{O350}'
 echo -en \
 "\
+%{S0}\
 %{l}\
 %{O$itemPadding}\
 $(date +'%a, %d %b %Y')\
