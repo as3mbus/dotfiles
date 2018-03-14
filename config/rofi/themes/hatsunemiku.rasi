@@ -54,7 +54,7 @@
 #window {
     background-color: @background;
     border:           0;
-    padding:          5;
+    padding:          10;
 }
 #mainbox {
     background-color: @background;

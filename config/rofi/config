@@ -1,1 +1,16 @@
 rofi.theme: ~/.config/rofi/themes/hatsunemiku.rasi
+! get rofi configuration template with rofi -dump-xresources
+rofi.modi:                           window,run,ssh,drun
+rofi.width:                          50
+rofi.lines:                          10
+rofi.columns:                        1
+rofi.font:                           mono 12
+rofi.bw:                             20
+rofi.location:                       2
+rofi.padding:                        10
+rofi.yoffset:                        30
+rofi.fixed-num-lines:                false
+rofi.show-icons:                     true
+rofi.sidebar-mode:                   false
+rofi.eh:                             1
+
