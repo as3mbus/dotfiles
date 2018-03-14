@@ -105,7 +105,7 @@ bindsym XF86MonBrightnessDown exec light -U 5
 bindsym $mod+grave exec xfce4-terminal
 
 # kill focused window
-bindsym $mod+f4 kill
+bindsym $mod+F4 kill
 
 # start dmenu (a program launcher)
 # There also is the (new) i3-dmenu-desktop which only displays applications
@@ -117,7 +117,7 @@ bindsym $mod+f4 kill
 # rofi
 bindsym $mod+Tab exec rofi -show window 
 bindsym $mod+f exec rofi -show drun
-bindsym $mod+g exec "rofi -combi-modi window,drun,ssh -font 'hack 10' -show combi"
+bindsym $mod+g exec "rofi -combi-modi drun,run,ssh -font 'hack 10' -show combi"
 
 bindsym Mod1+Tab focus right
 bindsym Mod1+Shift+Tab focus left
